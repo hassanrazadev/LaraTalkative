@@ -1,0 +1,52 @@
+
+.h-100vh{
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+}
+.chat-img-login{
+    width: 40%;
+}
+div#chatBox{
+    bottom: -9px;
+    max-height: 22rem;
+    width: 300px;
+}
+.chat-room.small-chat .profile-photo img.avatar {
+    height: 2rem;
+    width: 2rem;
+}
+.chat-room.small-chat .heading .data {
+    line-height: 1.5
+}
+.chat-room.small-chat .heading .data .name {
+    font-size: .8rem;
+}
+.chat-room.small-chat .heading .data .activity {
+    font-size: .75rem;
+}
+.grey-text {
+    color: #9e9e9e!important;
+}
+.chat-room.small-chat .icons {
+    padding-top: .45rem;
+    font-weight: 900;
+}
+.chat-room.small-chat .my-custom-scrollbar {
+    position: relative;
+    height: 15rem;
+    overflow: auto;
+}
+.chat-room.small-chat .my-custom-scrollbar > .card-body {
+    height: auto;
+}
+.chat-room.small-chat .card-footer .form-control {
+    border: none;
+    padding: .375rem 0 .43rem 0;
+    font-size: .9rem;
+}
+.chat-room.small-chat .card-footer .form-control:focus {
+    box-shadow: none;
+}
+.chat-room.small-chat .message-text{
+    line-height: 20px;
+}
