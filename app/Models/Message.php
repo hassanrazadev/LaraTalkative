@@ -44,7 +44,7 @@ class Message extends Model
     public function sendMessage(Request $request){
         $status = $this->create($request->all());
         if ($status){
-            return true;
+            return $status;
         }
         return false;
     }

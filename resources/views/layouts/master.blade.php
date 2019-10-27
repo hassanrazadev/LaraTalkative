@@ -53,12 +53,25 @@
         </div>
     </div>
 @show
-
+<input type="hidden" id="toUser">
+<div id="app"></div>
 @yield('content')
 
 
 <script type="text/javascript" src="{{asset('assets/js/jquery-v3.js')}}" ></script>
 <script type="text/javascript" src="{{asset('assets/js/bootstrap-v4.js')}}" ></script>
+<script src="{{asset('js/app.js')}}"></script>
+@section('echo-script')
+    <script>
+
+        let toUser = '{{auth()->user()->id}}';
+        Echo.private(`user.${toUser}`)
+            .listen('sendMessageEvent', function () {
+                alert('Hello! Message sent');
+            });
+
+    </script>
+@show
 <script type="text/javascript" src="{{asset('assets/js/scripts.js')}}" ></script>
 @yield('scripts')
 </body>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendMessageEvent;
 use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class MessageController extends Controller{
         $message = new Message();
         $status = $message->sendMessage($request);
         if ($status){
+            event(new SendMessageEvent($status));
             return $this->loadLatestMessages($request);
         }
     }

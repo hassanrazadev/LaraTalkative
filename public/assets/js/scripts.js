@@ -11,7 +11,6 @@ $(document).ready(function () {
             data: data,
             dataType: "html",
             success: function (response) {
-                console.log(response);
                 $('#chatBox').html(response);
                 scrollMessageBoxToTop();
             },error: function (response) {
@@ -35,7 +34,6 @@ $(document).ready(function () {
                 data: data,
                 dataType: "html",
                 success: function (response) {
-                    console.log(response);
                     $('#chatBox').html(response);
                     scrollMessageBoxToTop();
                 },error: function (response) {
