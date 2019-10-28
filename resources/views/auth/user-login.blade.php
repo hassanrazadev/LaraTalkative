@@ -46,5 +46,4 @@
     </div>
 @endsection
 @section('echo-script')
-
-@endsection
+@stop

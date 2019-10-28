@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use App\Events\SendMessageEvent;
 use App\Models\Message;
 use App\Models\User;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class MessageController extends Controller{
 
     /**
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function loadLatestMessages(Request $request){
         $message = new Message();

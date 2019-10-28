@@ -2,21 +2,7 @@ $(document).ready(function () {
     // show message box on button click and load all messages
     $(document).on('click', '.send-message', function (e) {
         let toUser = $(this).attr('data-to-user');
-        console.log('Message Sent to ' + toUser);
-
-        let data = {to_user: toUser, _token: $("meta[name='csrf-token']").attr("content")};
-        $.ajax({
-            url: loadLatestMessages,
-            method: 'GET',
-            data: data,
-            dataType: "html",
-            success: function (response) {
-                $('#chatBox').html(response);
-                scrollMessageBoxToTop();
-            },error: function (response) {
-                console.log(response);
-            }
-        })
+        showMessageBox(toUser)
     });
 
     // send message to selected user
@@ -63,7 +49,21 @@ $(document).ready(function () {
     });
 
 });
-
+function showMessageBox(toUserId) {
+    let data = {to_user: toUserId, _token: $("meta[name='csrf-token']").attr("content")};
+    $.ajax({
+        url: loadLatestMessages,
+        method: 'GET',
+        data: data,
+        dataType: "html",
+        success: function (response) {
+            $('#chatBox').html(response);
+            scrollMessageBoxToTop();
+        },error: function (response) {
+            console.log(response);
+        }
+    })
+}
 // =========================================== HELPER FUNCTIONS =========================================/
 function scrollMessageBoxToTop() {
     let messageBody = document.querySelector('.message-history');

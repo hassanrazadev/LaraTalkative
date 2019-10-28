@@ -50,4 +50,4 @@
         </div>
     </div>
 @endsection
-@section('echoScript') @stop
+@section('echo-script') @stop

@@ -20,6 +20,10 @@
 
 <body>
 @section('navbar')
+    <audio id="message-tone">
+        <source src="{{asset('assets/sounds/message.ogg')}}" type="audio/ogg">
+        <source src="{{asset('assets/sounds/message.mp3')}}" type="audio/mpeg">
+    </audio>
     <div class="bg-dark">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -60,19 +64,28 @@
 
 <script type="text/javascript" src="{{asset('assets/js/jquery-v3.js')}}" ></script>
 <script type="text/javascript" src="{{asset('assets/js/bootstrap-v4.js')}}" ></script>
-<script src="{{asset('js/app.js')}}"></script>
+<script type="text/javascript" src="{{asset('assets/js/scripts.js')}}" ></script>
 @section('echo-script')
+    <script src="{{asset('assets/js/pusher.min.js')}}"></script>
     <script>
+        let toUser = '{{auth()->check() ? auth()->user()->id : ""}}';
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
 
-        let toUser = '{{auth()->user()->id}}';
-        Echo.private(`user.${toUser}`)
-            .listen('sendMessageEvent', function () {
-                alert('Hello! Message sent');
-            });
+        let pusher = new Pusher('ea6a03436884a76e33cb', {
+            cluster: 'ap2',
+            forceTLS: true
+        });
 
+        let channel = pusher.subscribe(`user.${toUser}`);
+        channel.bind('sendMessageEvent', function(data) {
+            let ringTone = document.getElementById('message-tone');
+            let fromUser = data.message.from_user;
+            showMessageBox(fromUser);
+            ringTone.play();
+        });
     </script>
 @show
-<script type="text/javascript" src="{{asset('assets/js/scripts.js')}}" ></script>
 @yield('scripts')
 </body>
 </html>
