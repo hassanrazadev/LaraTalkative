@@ -19,53 +19,56 @@
 </head>
 
 <body>
-@section('navbar')
-    <audio id="message-tone">
-        <source src="{{asset('assets/sounds/message.ogg')}}" type="audio/ogg">
-        <source src="{{asset('assets/sounds/message.mp3')}}" type="audio/mpeg">
-    </audio>
-    <div class="bg-dark">
-        <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="{{route('home')}}">{{config('app.name')}}</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('home')}}">Home</a>
-                        </li>
-                        @if(!auth()->check())
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{route('userLogin')}}">Login</a>
-                            </li>
-                        @else
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{route('home')}}">Inbox</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{auth()->user()->name}}</a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="{{route('doLogout')}}">Logout</a>
-                                </div>
-                            </li>
-                        @endif
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-@show
 <input type="hidden" id="toUser">
-<div id="app"></div>
-@yield('content')
-
+<div style="min-height: calc(100vh - 72px)">
+    @section('navbar')
+        <audio id="message-tone">
+            <source src="{{asset('assets/sounds/message.ogg')}}" type="audio/ogg">
+            <source src="{{asset('assets/sounds/message.mp3')}}" type="audio/mpeg">
+        </audio>
+        <div class="bg-dark">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <a class="navbar-brand" href="{{route('home')}}">{{config('app.name')}}</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('home')}}">Home</a>
+                            </li>
+                            @if(!auth()->check())
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('userLogin')}}">Login</a>
+                                </li>
+                            @else
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{route('home')}}">Inbox</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{auth()->user()->name}}</a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a class="dropdown-item" href="{{route('doLogout')}}">Logout</a>
+                                    </div>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    @show
+    @yield('content')
+</div>
+<footer class="bg-dark p-4 text-center text-white">
+    &copy; All rights reserved by <a href="https://www.facebook.com/HRaza143" target="_blank">Hassan Raza</a>
+</footer>
 
 <script type="text/javascript" src="{{asset('assets/js/jquery-v3.js')}}" ></script>
 <script type="text/javascript" src="{{asset('assets/js/bootstrap-v4.js')}}" ></script>
 <script type="text/javascript" src="{{asset('assets/js/scripts.js')}}" ></script>
-@section('echo-script')
+@if(auth()->check())
     <script src="{{asset('assets/js/pusher.min.js')}}"></script>
     <script>
         let toUser = '{{auth()->check() ? auth()->user()->id : ""}}';
@@ -79,13 +82,15 @@
 
         let channel = pusher.subscribe(`user.${toUser}`);
         channel.bind('sendMessageEvent', function(data) {
+            // get audio tag having message tone
             let ringTone = document.getElementById('message-tone');
             let fromUser = data.message.from_user;
             showMessageBox(fromUser);
+            // playing message tone
             ringTone.play();
         });
     </script>
-@show
+@endif
 @yield('scripts')
 </body>
 </html>
